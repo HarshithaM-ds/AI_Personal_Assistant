@@ -1,5 +1,5 @@
-# Use a Node.js base image supporting OpenClaw (Node 22+)
-FROM node:22-slim
+# Use a Node.js base image supporting OpenClaw (Node 24+)
+FROM node:24-slim
 
 # Install system dependencies (needed to download/install Bun and build gbrain)
 RUN apt-get update && apt-get install -y \
