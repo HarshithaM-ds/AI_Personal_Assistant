@@ -59,26 +59,10 @@
       "token": "372cac906088c8fc9bdd93cfbb2ef4ecbfd901e88955d080"
     },
     "bind": "loopback",
-    "controlUi": {
-      "allowInsecureAuth": true
-    },
     "mode": "local",
-    "nodes": {
-      "denyCommands": [
-        "camera.snap",
-        "camera.clip",
-        "screen.record",
-        "contacts.add",
-        "calendar.add",
-        "reminders.add",
-        "sms.send",
-        "sms.search"
-      ]
-    },
     "port": 18789,
     "tailscale": {
-      "mode": "off",
-      "resetOnExit": false
+      "mode": "off"
     }
   },
   "hooks": {
@@ -92,8 +76,7 @@
     }
   },
   "meta": {
-    "lastTouchedAt": "2026-06-22T17:34:14.059Z",
-    "lastTouchedVersion": "2026.6.1"
+    "lastTouchedVersion": "2026.10.10"
   },
   "models": {
     "mode": "merge",

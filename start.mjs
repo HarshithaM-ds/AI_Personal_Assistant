@@ -91,6 +91,28 @@ try {
       // Align workspace path with container home directory
       configJson.agents.defaults.workspace = path.join(homeDir, ".openclaw", "workspace");
 
+      // Sanitize deprecated OpenClaw schema keys
+      if (configJson.meta) {
+        delete configJson.meta.lastTouchedAt;
+      }
+      if (configJson.gateway) {
+        if (configJson.gateway.controlUi) {
+          delete configJson.gateway.controlUi.allowInsecureAuth;
+          if (Object.keys(configJson.gateway.controlUi).length === 0) {
+            delete configJson.gateway.controlUi;
+          }
+        }
+        if (configJson.gateway.tailscale) {
+          delete configJson.gateway.tailscale.resetOnExit;
+        }
+        if (configJson.gateway.nodes) {
+          delete configJson.gateway.nodes.denyCommands;
+          if (Object.keys(configJson.gateway.nodes).length === 0) {
+            delete configJson.gateway.nodes;
+          }
+        }
+      }
+
       fs.writeFileSync(openclawConfigPath, JSON.stringify(configJson, null, 2), "utf8");
       console.log("⚙️ openclaw.json configuration sync complete.");
     } else {
