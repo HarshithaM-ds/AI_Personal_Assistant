@@ -28,6 +28,32 @@ const metadata = {
   duration: "60 minutes"
 };
 
+const fallbackAnalysis = {
+  summary: "Project status review meeting for the Personal AI Assistant. Anil (Manager) reviewed progress with Radesh and Sameer. Radesh confirmed the resolution of Railway database crashes by migrating from PGlite to native PostgreSQL via DATABASE_URL and refreshed Gmail OAuth credentials for the 30-minute ingestion pipeline. Sameer reported on OpenClaw Gateway connectivity on port 18789 and stability improvements with Gemini. The WhatsApp webhook on Railway was successfully verified with Meta.",
+  actionItems: [
+    "Radesh: Monitor ingestion pipeline logs over the next 24 hours to ensure Gmail credentials do not expire",
+    "Sameer: Test voice-transcription capability with actual audio recordings of meetings and report accuracy",
+    "Anil: Handle API keys budget sign-off and schedule next review meeting"
+  ],
+  decisions: [
+    "Lock Railway as the production platform with managed PostgreSQL",
+    "Default to Gemini Flash models across the entire stack"
+  ],
+  topics: [
+    "Gmail and PostgreSQL integration status",
+    "PGlite W^X memory restrictions migration to native PostgreSQL",
+    "OpenClaw Gateway and Telegram provider setup",
+    "WhatsApp Webhook public domain and Meta verification",
+    "Production platform decisions and action items"
+  ],
+  keyPoints: "- Database crashes resolved by migrating to native PostgreSQL on Railway.\n- Gmail 30-min ingestion pipeline operational.\n- OpenClaw Gateway running on port 18789.\n- WhatsApp webhook active on Railway public domain.",
+  followUps: [
+    "Monitor Gmail credentials persistence",
+    "Test meeting audio voice-transcription",
+    "Review API budget and schedule follow-up sync"
+  ]
+};
+
 async function run() {
   console.log("🚀 Starting project review meeting ingestion...");
   
@@ -36,10 +62,16 @@ async function run() {
     return;
   }
 
+  let analysis;
   try {
     console.log("Analyzing transcript with Gemini...");
-    const analysis = await analyzeMeeting(transcript, metadata);
-    
+    analysis = await analyzeMeeting(transcript, metadata);
+  } catch (err) {
+    console.warn("⚠️ Gemini analysis failed, using pre-built fallback analysis:", err.message);
+    analysis = fallbackAnalysis;
+  }
+
+  try {
     console.log("Structuring meeting document...");
     const title = metadata.title;
     const date = metadata.date;
