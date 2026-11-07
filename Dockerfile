@@ -30,8 +30,8 @@ RUN mkdir -p /usr/src/app /usr/src/gbrain /usr/src/gbrain-seed /home/node/.openc
 # Switch to the non-root node user
 USER node
 
-# Install Bun as node user
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.3.14"
+# Install latest Bun as node user (GBrain requires Bun >=1.4.4)
+RUN curl -fsSL https://bun.sh/install | bash
 
 # Clone and install official gbrain
 WORKDIR /usr/src
@@ -43,9 +43,12 @@ RUN bun install
 RUN mkdir -p /home/node/.bun/bin
 RUN echo '#!/bin/sh\nexec bun /usr/src/gbrain/src/cli.ts "$@"' > /home/node/.bun/bin/gbrain && chmod +x /home/node/.bun/bin/gbrain
 
-# Create symlink in /home/radesh/ for backwards compatibility
+# Create symlinks in /home/radesh/ for backwards compatibility
 USER root
-RUN mkdir -p /home/radesh/.bun/bin && ln -sf /home/node/.bun/bin/gbrain /home/radesh/.bun/bin/gbrain && chown -R node:node /home/radesh
+RUN mkdir -p /home/radesh/.bun/bin \
+    && ln -sf /home/node/.bun/bin/gbrain /home/radesh/.bun/bin/gbrain \
+    && ln -sf /home/node/.bun/bin/bun /home/radesh/.bun/bin/bun \
+    && chown -R node:node /home/radesh
 
 # Build and install pgvector from source (not available as apt package in Debian Bookworm)
 RUN PG_MAJOR=$(pg_config --version | awk '{print $2}' | cut -d. -f1) \

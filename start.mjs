@@ -107,6 +107,15 @@ const homeDir = process.env.HOME || "/root";
 try {
   if (isDocker) {
     const { execSync } = await import("child_process");
+
+    // Ensure Bun meets GBrain requirements (Bun >=1.4.4)
+    try {
+      console.log("🍞 Ensuring Bun is up to date (>=1.4.4) for GBrain...");
+      execSync("bun upgrade", { stdio: "inherit" });
+    } catch (bunErr) {
+      console.warn("⚠️ Bun upgrade check:", bunErr.message);
+    }
+
     const gbrainConfigDir = path.join(homeDir, ".gbrain");
     fs.mkdirSync(gbrainConfigDir, { recursive: true });
     const configPath = path.join(gbrainConfigDir, "config.json");

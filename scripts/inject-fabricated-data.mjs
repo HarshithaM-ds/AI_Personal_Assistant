@@ -117,7 +117,7 @@ During our automated cloud build on Railway, we encountered an engine compatibil
 
 I have updated the Dockerfile to 'node:24-slim' and verified:
 1. Native PostgreSQL server starts reliably on port 5432 with pgvector v0.8.0 compiled from source.
-2. Bun v1.3.14 installs properly and links GBrain into /home/node/.bun/bin.
+2. Bun v1.4.4+ installs properly and links GBrain into /home/node/.bun/bin.
 3. OpenClaw Gateway initializes on port 18789 without engine warnings.
 4. WhatsApp webhook on port 3002 is verified with Meta Graph API.
 
@@ -402,3 +402,4 @@ if (process.argv[1] && process.argv[1].endsWith("inject-fabricated-data.mjs")) {
     process.exit(1);
   });
 }
+
