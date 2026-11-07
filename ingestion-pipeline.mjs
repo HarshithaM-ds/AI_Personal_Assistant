@@ -30,6 +30,11 @@ function sleep(ms) {
 async function runIngestion() {
   console.log(`[${new Date().toISOString()}] Starting email ingestion...`);
 
+  if (!fs.existsSync(path.join(__dirname, "credentials.json")) || !fs.existsSync(path.join(__dirname, "token.json"))) {
+    console.log("⏭️ Live Gmail credentials not configured (credentials.json/token.json missing). Live sync skipped; assistant is using pre-seeded team emails.");
+    return;
+  }
+
   let emails;
   let retries = 0;
 
@@ -104,6 +109,11 @@ async function runIngestion() {
  */
 async function runCalendarIngestion() {
   console.log(`[${new Date().toISOString()}] Starting calendar ingestion...`);
+
+  if (!fs.existsSync(path.join(__dirname, "credentials.json")) || !fs.existsSync(path.join(__dirname, "token.json"))) {
+    console.log("⏭️ Live Calendar credentials not configured (credentials.json/token.json missing). Live sync skipped.");
+    return;
+  }
 
   let events = [];
   try {
