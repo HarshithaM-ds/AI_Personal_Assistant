@@ -15,6 +15,7 @@
     "digest": "node digest.mjs",
     "send": "node send-discord.mjs",
     "search": "node workflow-email-agent.mjs",
+    "seed": "node scripts/inject-fabricated-data.mjs",
     "setup": "wsl bash scripts/setup-workspace.sh"
   },
   "keywords": [

@@ -223,6 +223,14 @@ try {
     } catch (injectErr) {
       console.error("❌ Failed to inject final review meeting:", injectErr.message);
     }
+
+    // Auto-inject team sprint review meeting & fabricated emails (Radesh, Harshitha, Sameer)
+    try {
+      console.log("🤖 Injecting fabricated team emails and project sync meeting (Radesh, Harshitha, Sameer)...");
+      execSync("node scripts/inject-fabricated-data.mjs", { stdio: "inherit" });
+    } catch (injectErr) {
+      console.error("❌ Failed to inject fabricated data:", injectErr.message);
+    }
   }
 } catch (err) {
   console.error("⚠️ Failed to initialize local PostgreSQL/GBrain:", err.message);
